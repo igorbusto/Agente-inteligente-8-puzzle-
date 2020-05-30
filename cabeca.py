@@ -1,9 +1,8 @@
 from random import randint
 
-class cabeça:
-    lista = []
+lista = []
 
-    def inicio(lista):
+def inicio(lista):
         for i in range(0, 9):
             torio = randint(0,8)
             if(i == 0):
@@ -14,7 +13,10 @@ class cabeça:
                 lista.append(torio)
         return lista
 
-    def movimentacao(lista, posAtual, mover):
+def autoResolucao(msg):        
+      print(msg)
+
+def movimentacao(lista, posAtual, mover):
         guardar = 0
 
         if(mover == 'esquerda'):
@@ -48,17 +50,19 @@ class cabeça:
                 lista[posAtual] = guardar
             else:
                 print('Erro')
+                
+        elif(mover == 'auto'):
+            autoResolucao('aaaa')
 
         return lista
 
-
-    def testeDeObjetivo(lista):
+def testeDeObjetivo(lista):
         completo = False
         if(lista == [1,2,3,4,5,6,7,8,0]):
             completo =  True
         return completo
 
-    def imprime(lista):
+def imprime(lista):
         for i in range(0, len(lista)):
             if(i <= 2):
                 if(i == 2):
@@ -76,24 +80,24 @@ class cabeça:
                 else:
                     print(lista[i], end = '  ')
 
-    
+inicio(lista)
 
-    inicio(lista)
-
-    completou = False
-    lugar = 0
-    while(completou == False):
+completou = False
+lugar = 0
+while(completou == False):
         
-        imprime(lista)
-        lugar = lista.index(0)
-        mover = input('esquerda, direita, cima, baixo ou terminar: ')
-        if(mover == 'terminar'):
-            break
-        movimentacao(lista, lugar, mover)
+    imprime(lista)
+    lugar = lista.index(0)
+    mover = input('esquerda, direita, cima, baixo, auto ou terminar: ')
+    if(mover == 'terminar'):
+        break
+    movimentacao(lista, lugar, mover)
         
-        completou = testeDeObjetivo(lista)
+    completou = testeDeObjetivo(lista)
 
-    if(completou == True):
-        print('Parabens, quebra cabeça completo')
-    else:
-        print('Programa terminado')
+if(completou == True):
+    print('Parabens, quebra cabeça completo')
+else:
+    print('Programa terminado')
+        
+        
