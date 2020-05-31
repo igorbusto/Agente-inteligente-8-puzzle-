@@ -3,7 +3,7 @@
     - ## Objetivo:
         - O objetivo do jogo é mover as peças a partir de um estado inicial até encontrar seu estado final, quando o Puzzle está ordenado de forma crescente como na figura abaixo.
 
-<div style="text-align:center;margin:2%;"><img src="images\puzzle8-objetivo.png"/></div>
+<div style="text-align:center;margin:2%;"><img src="https://github.com/igorbusto/Agente-inteligente-8-puzzle-/blob/3a8351e0888d87db0bfb2e3231bb243f2f4bea12/wiki/images/puzzle8-objetivo.png"/></div>
 
 - # Agentes
 
