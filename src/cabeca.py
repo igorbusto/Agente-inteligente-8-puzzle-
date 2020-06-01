@@ -1,5 +1,7 @@
 from random import randint
+import time
 
+#lista = []
 lista = [0,1,2,8,7,3,6,5,4]
 
 
@@ -62,7 +64,7 @@ def calcularDistancia(lista, lugarEstado, direcao):
 
         
 
-def autoResolucao(lista, lugar): 
+def buscaGulosa(lista, lugar): 
 
     distancias = []
     direcao = []
@@ -94,54 +96,92 @@ def autoResolucao(lista, lugar):
     menor = 10
     for i in range(0, len(distancias)):
 
-        print(direcao[i], ' ', distancias[i])
+        #print(direcao[i], ' ', distancias[i])
 
         if(distancias[i] < menor):
             menor = distancias[i]
-    menor = distancias.index(menor)
-    mover = direcao[menor]
-
-    movimentacao(lista, lugar, mover)
-    imprime(lista)
+    if(menor == 10):
+        deuLoop(lista)
+    else:
+        menor = distancias.index(menor)
+        mover = direcao[menor]
+        movimentacao(lista, lugar, mover)
+        imprime(lista)
+    
 
 
 
 def movimentacao(lista, posAtual, mover):
-        guardar = 0
+    guardar = 0
 
-        if(mover == 'a'):
-            if(posAtual != 0 and posAtual != 3 and posAtual != 6):
-                guardar = lista[posAtual-1]
-                lista[posAtual-1] = 0
-                lista[posAtual] = guardar
-            else:
-                print('Erro')
+    if(mover == 'a'):
+        if(posAtual != 0 and posAtual != 3 and posAtual != 6):
+            guardar = lista[posAtual-1]
+            lista[posAtual-1] = 0
+            lista[posAtual] = guardar
+        else:
+            print('Erro')
 
-        elif(mover == 'd'):
-            if(posAtual != 2 and posAtual != 5 and posAtual != 8):
-                guardar = lista[posAtual +1]
-                lista[posAtual +1] = 0
-                lista[posAtual] = guardar
-            else:
-                print('Erro')
+    elif(mover == 'd'):
+        if(posAtual != 2 and posAtual != 5 and posAtual != 8):
+            guardar = lista[posAtual +1]
+            lista[posAtual +1] = 0
+            lista[posAtual] = guardar
+        else:
+            print('Erro')
 
-        elif(mover == 's'):
-            if(posAtual != 6 and posAtual != 7 and posAtual != 8):
-                guardar = lista[posAtual+3]
-                lista[posAtual+3] = 0
-                lista[posAtual] = guardar
-            else:
-                print('Erro')
+    elif(mover == 's'):
+        if(posAtual != 6 and posAtual != 7 and posAtual != 8):
+            guardar = lista[posAtual+3]
+            lista[posAtual+3] = 0
+            lista[posAtual] = guardar
+        else:
+            print('Erro')
 
-        elif(mover == 'w'):
-            if(posAtual != 0 and posAtual != 1 and posAtual != 2):
-                guardar = lista[posAtual-3]
-                lista[posAtual-3] = 0
-                lista[posAtual] = guardar
-            else:
-                print('Erro')
+    elif(mover == 'w'):
+        if(posAtual != 0 and posAtual != 1 and posAtual != 2):
+            guardar = lista[posAtual-3]
+            lista[posAtual-3] = 0
+            lista[posAtual] = guardar
+        else:
+            print('Erro')
 
-        return lista
+    return lista
+
+
+def deuLoop(lista):
+    lugar = lista.index(0)
+    direcao = []
+
+    if(lugar != 6 and lugar != 7 and lugar != 8): # pode ir pra baixo
+        direcao.append('s')
+        baixo = lista[lugar+3]
+        print('baixo: ', baixo)
+
+    if(lugar != 0 and lugar != 1 and lugar != 2): # pode ir pra cima
+        direcao.append('w')
+        cima = lista[lugar-3]
+        print('cima: ', cima)
+
+    if(lugar != 2 and lugar != 5 and lugar != 8): # pode ir para direita
+        direcao.append('d')
+        direita = lista[lugar+1]
+        print('direita: ', direita)
+
+    if(lugar != 0 and lugar != 3 and lugar != 6): # pode ir pra esquerda
+        direcao.append('a') 
+        esquerda = lista[lugar-1]
+        print('esquerda: ', esquerda)
+    
+
+    moverAleatorio = randint(0 ,len(direcao)-1)
+    movimentacao(lista, lugar, direcao[moverAleatorio])
+    imprime(lista)
+    return lista
+    
+
+
+
 
 
 def deuLoop(lista, lugar):
@@ -175,10 +215,10 @@ def deuLoop(lista, lugar):
 
 
 def testeDeObjetivo(lista):
-        completo = False
-        if(lista == [1,2,3,4,5,6,7,8,0]):
-            completo =  True
-        return completo
+    completo = False
+    if(lista == [1,2,3,4,5,6,7,8,0]):
+        completo =  True
+    return completo
 
 def imprime(lista):
     print('\n---------------------------')
@@ -206,12 +246,12 @@ def imprime(lista):
 completou = False
 lugar = 0
 
-metodo = input('1 para Auto resolução \n2 para Agente humano \n ')
+metodo = input('1 para Busca Gulosa \n2 para Agente humano \n ')
 
 if(metodo == '1'):
-    imprime(lista)
     loop = 0
     copiaUm = lista.copy()
+    imprime(lista)
 
     while(completou == False):
     #for i in range(0, 20):
@@ -222,17 +262,25 @@ if(metodo == '1'):
             copiaUm = lista.copy()
 
             if(copiaUm == copiaDois):
-                deuLoop(lista, lugar)
+                deuLoop(lista)
+                deuLoop(lista)
+                deuLoop(lista)
             loop = 0
 
         lugar = lista.index(0)
-        autoResolucao(lista,lugar)
+        buscaGulosa(lista,lugar)
         #print('Agente inteligete')
         loop = loop +1
 
+        #imprime(lista)
+        #time.sleep(1) # delay
+        completou = testeDeObjetivo(lista)
+        if(completou == True):
+            print('Parabens, quebra cabeça completo')
+    
+
 elif(metodo == '2'):
     while(completou == False):
-            
         imprime(lista)
         lugar = lista.index(0)
         mover = input('esquerda-a, direita-d, cima-w, baixo-s, auto ou terminar: ')
