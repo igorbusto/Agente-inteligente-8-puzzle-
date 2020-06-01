@@ -1,6 +1,6 @@
 from random import randint
 
-lista = []
+lista = [0,1,2,8,7,3,6,5,4]
 
 
 
@@ -67,13 +67,13 @@ def autoResolucao(lista, lugar):
     distancias = []
     direcao = []
 
-    if(lugar != 6 and lugar != 7 and lugar != 8): # pode ir pra cima
+    if(lugar != 6 and lugar != 7 and lugar != 8): # pode ir pra baixo
         baixo = lista[lugar+3]
         distancias.append(calcularDistancia(lista, baixo, 's'))
         print('baixo: ', baixo)
         direcao.append('s')
 
-    if(lugar != 0 and lugar != 1 and lugar != 2): # pode ir pra baixo
+    if(lugar != 0 and lugar != 1 and lugar != 2): # pode ir pra cima
         cima = lista[lugar-3]
         distancias.append(calcularDistancia(lista, cima, 'w'))
         print('cima: ', cima)
@@ -143,6 +143,37 @@ def movimentacao(lista, posAtual, mover):
 
         return lista
 
+
+def deuLoop(lista, lugar):
+    
+    direcao = []
+
+    if(lugar != 6 and lugar != 7 and lugar != 8): # pode ir pra cima
+        direcao.append('s')
+
+    if(lugar != 0 and lugar != 1 and lugar != 2): # pode ir pra baixo
+        direcao.append('w')
+
+    if(lugar != 2 and lugar != 5 and lugar != 8): # pode ir para direita
+        direcao.append('d')
+
+    if(lugar != 0 and lugar != 3 and lugar != 6): # pode ir pra esquerda
+        direcao.append('a')
+    
+
+    moverAleatorio = randint(0 ,len(direcao)-1)
+    imprime(lista)
+    print('posso ir para: ', direcao)
+    print('Direção: ', direcao[moverAleatorio])
+    movimentacao(lista, lugar, direcao[moverAleatorio])
+    
+    imprime(lista)
+    return lista
+    
+
+
+
+
 def testeDeObjetivo(lista):
         completo = False
         if(lista == [1,2,3,4,5,6,7,8,0]):
@@ -168,35 +199,38 @@ def imprime(lista):
             else:
                 print(lista[i], end = '  ')
 
-inicio(lista)
+
+
+#inicio(lista)
 
 completou = False
 lugar = 0
 
-#metodo = input('1 para Auto resolução \n2 para Agente humano \n ')
+metodo = input('1 para Auto resolução \n2 para Agente humano \n ')
 
-#if(metodo == '1'):
-imprime(lista)
-loop = 0
-antesLoop = 0
-copiaUm = lista.copy()
+if(metodo == '1'):
+    imprime(lista)
+    loop = 0
+    copiaUm = lista.copy()
 
-while(completou == False):
-#for i in range(0, 20):
-   
-    if((loop - antesLoop) < 2):
-        copiaDois = copiaUm.copy()
-        copiaUm = lista.copy()
+    while(completou == False):
+    #for i in range(0, 20):
+        lugar = lista.index(0)
+    
+        if(loop == 2):
+            copiaDois = copiaUm.copy()
+            copiaUm = lista.copy()
 
-        if(copiaUm == copiaDois):
-            
+            if(copiaUm == copiaDois):
+                deuLoop(lista, lugar)
+            loop = 0
 
-    lugar = lista.index(0)
-    autoResolucao(lista,lugar)
-    print('Agente inteligete')
-    loop = loop +1
+        lugar = lista.index(0)
+        autoResolucao(lista,lugar)
+        #print('Agente inteligete')
+        loop = loop +1
 
-'''elif(metodo == '2'):
+elif(metodo == '2'):
     while(completou == False):
             
         imprime(lista)
@@ -211,6 +245,6 @@ while(completou == False):
     if(completou == True):
         print('Parabens, quebra cabeça completo')
     else:
-        print('Programa terminado')'''
+        print('Programa terminado')
         
         
