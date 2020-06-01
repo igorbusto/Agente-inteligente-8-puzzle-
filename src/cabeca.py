@@ -181,39 +181,6 @@ def deuLoop(lista):
     
 
 
-
-
-
-def deuLoop(lista, lugar):
-    
-    direcao = []
-
-    if(lugar != 6 and lugar != 7 and lugar != 8): # pode ir pra cima
-        direcao.append('s')
-
-    if(lugar != 0 and lugar != 1 and lugar != 2): # pode ir pra baixo
-        direcao.append('w')
-
-    if(lugar != 2 and lugar != 5 and lugar != 8): # pode ir para direita
-        direcao.append('d')
-
-    if(lugar != 0 and lugar != 3 and lugar != 6): # pode ir pra esquerda
-        direcao.append('a')
-    
-
-    moverAleatorio = randint(0 ,len(direcao)-1)
-    imprime(lista)
-    print('posso ir para: ', direcao)
-    print('Direção: ', direcao[moverAleatorio])
-    movimentacao(lista, lugar, direcao[moverAleatorio])
-    
-    imprime(lista)
-    return lista
-    
-
-
-
-
 def testeDeObjetivo(lista):
     completo = False
     if(lista == [1,2,3,4,5,6,7,8,0]):
@@ -273,7 +240,7 @@ if(metodo == '1'):
         loop = loop +1
 
         #imprime(lista)
-        #time.sleep(1) # delay
+        time.sleep(1) # delay
         completou = testeDeObjetivo(lista)
         if(completou == True):
             print('Parabens, quebra cabeça completo')
