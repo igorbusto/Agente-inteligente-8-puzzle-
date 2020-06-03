@@ -56,7 +56,6 @@ def calcularDistancia(lista, lugarEstado, direcao):
             elif(indice > lugarEstado):
                 indice = indice -3
                 conta = conta +1
-                #print('3')
         #print('Na distancia:' , conta)
         return conta
     else:
@@ -103,8 +102,16 @@ def buscaGulosa(lista, lugar):
     if(menor == 10):
         deuLoop(lista)
     else:
-        menor = distancias.index(menor)
-        mover = direcao[menor]
+        menores = []
+        for i in range(0, len(distancias)):
+            if(distancias[i] == menor):
+                menores.append(direcao[i])
+            
+        print('Menores: ', menores)
+        #menor = distancias.index(menor)
+        #mover = direcao[menor]
+        menor = randint(0,len(menores)-1)
+        mover = menores[menor]
         movimentacao(lista, lugar, mover)
         imprime(lista)
     
@@ -221,7 +228,7 @@ if(metodo == '1'):
     imprime(lista)
 
     while(completou == False):
-    #for i in range(0, 20):
+    #for i in range(0, 8):
         lugar = lista.index(0)
     
         if(loop == 2):
@@ -240,7 +247,7 @@ if(metodo == '1'):
         loop = loop +1
 
         #imprime(lista)
-        time.sleep(1) # delay
+        #time.sleep(1) # delay
         completou = testeDeObjetivo(lista)
         if(completou == True):
             print('Parabens, quebra cabeça completo')
