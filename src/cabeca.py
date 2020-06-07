@@ -2,7 +2,8 @@ from random import randint
 import time
 
 #lista = []
-lista = [0,1,2,8,7,3,6,5,4]
+#lista = [0,1,2,8,7,3,6,5,4]
+lista = [5,6,8,4,2,3,0,1,7]
 
 
 
@@ -16,6 +17,7 @@ def inicio(lista):
                     torio = randint(0,8)
                 lista.append(torio)
         return lista
+
 
 def calcularDistancia(lista, lugarEstado, direcao):
     copiaLista = lista.copy()
@@ -61,7 +63,6 @@ def calcularDistancia(lista, lugarEstado, direcao):
     else:
         return 20
 
-        
 
 def buscaGulosa(lista, lugar): 
 
@@ -71,25 +72,25 @@ def buscaGulosa(lista, lugar):
     if(lugar != 6 and lugar != 7 and lugar != 8): # pode ir pra baixo
         baixo = lista[lugar+3]
         distancias.append(calcularDistancia(lista, baixo, 's'))
-        print('baixo: ', baixo)
+        #print('baixo: ', baixo)
         direcao.append('s')
 
     if(lugar != 0 and lugar != 1 and lugar != 2): # pode ir pra cima
         cima = lista[lugar-3]
         distancias.append(calcularDistancia(lista, cima, 'w'))
-        print('cima: ', cima)
+        #print('cima: ', cima)
         direcao.append('w')
 
     if(lugar != 2 and lugar != 5 and lugar != 8): # pode ir para direita
         direita = lista[lugar+1]
         distancias.append(calcularDistancia(lista, direita, 'd'))
-        print('direita: ', direita)
+        #print('direita: ', direita)
         direcao.append('d')
 
     if(lugar != 0 and lugar != 3 and lugar != 6): # pode ir pra esquerda
         esquerda = lista[lugar-1]
         distancias.append(calcularDistancia(lista, esquerda, 'a'))
-        print('esquerda: ', esquerda)
+        #print('esquerda: ', esquerda)
         direcao.append('a')
 
     menor = 10
@@ -107,15 +108,85 @@ def buscaGulosa(lista, lugar):
             if(distancias[i] == menor):
                 menores.append(direcao[i])
             
-        print('Menores: ', menores)
-        #menor = distancias.index(menor)
-        #mover = direcao[menor]
+        #print('Menores: ', menores)
         menor = randint(0,len(menores)-1)
         mover = menores[menor]
         movimentacao(lista, lugar, mover)
         imprime(lista)
     
 
+def buscaEstrela(lista, lugar): #lugar == indice do 0
+    h = []
+    direcao = []
+
+    if(lugar != 6 and lugar != 7 and lugar != 8): # pode ir pra baixo
+        baixo = lista[lugar+3]
+        h.append(calcularH(lista, baixo, 's'))
+        #print('baixo: ', baixo)
+        direcao.append('s')
+
+    if(lugar != 0 and lugar != 1 and lugar != 2): # pode ir pra cima
+        cima = lista[lugar-3]
+        h.append(calcularH(lista, cima, 'w'))
+        #print('cima: ', cima)
+        direcao.append('w')
+
+    if(lugar != 2 and lugar != 5 and lugar != 8): # pode ir para direita
+        direita = lista[lugar+1]
+        h.append(calcularH(lista, direita, 'd'))
+        #print('direita: ', direita)
+        direcao.append('d')
+
+    if(lugar != 0 and lugar != 3 and lugar != 6): # pode ir pra esquerda
+        esquerda = lista[lugar-1]
+        h.append(calcularH(lista, esquerda, 'a'))
+        #print('esquerda: ', esquerda)
+        direcao.append('a')
+    
+
+    #print('H ', h)
+    #print('direcao: ', direcao)
+    maior = 0
+    for i in range(0, len(h)):
+        if(h[i] > maior):
+            maior = h[i]
+
+    #print('maior: ', maior)
+    #mover = direcao[h.index(maior)]
+    #print('mover: ', mover)
+
+    maiores = []
+    for j in range(0, len(h)):
+        if(h[j] == maior):
+            maiores.append(direcao[j])
+
+    if(len(maiores) > 1):
+        #print('entrou nos mais q 1 no maior')
+        #print('maiores: ', maiores)
+        mover = maiores[randint(0,len(maiores)-1)]   
+    else:
+        mover = direcao[h.index(maior)]
+
+    movimentacao(lista, lugar, mover)
+    imprime(lista)
+
+
+def calcularH(lista, lugarEstado, direcao):
+    copiaLista = lista.copy()
+    lugar = copiaLista.index(0)
+    #lugarObjeto = copiaLista.index(lugarEstado)
+
+    movimentacao(copiaLista, lugar, direcao)
+
+
+    contagem = 0
+    for i in range(0, len(copiaLista)):
+        indice = i + 1
+        if(copiaLista[i] == indice):
+            contagem = contagem + 1
+
+    #print('contagem: ', contagem)
+    return contagem
 
 
 def movimentacao(lista, posAtual, mover):
@@ -163,22 +234,22 @@ def deuLoop(lista):
     if(lugar != 6 and lugar != 7 and lugar != 8): # pode ir pra baixo
         direcao.append('s')
         baixo = lista[lugar+3]
-        print('baixo: ', baixo)
+        #print('baixo: ', baixo)
 
     if(lugar != 0 and lugar != 1 and lugar != 2): # pode ir pra cima
         direcao.append('w')
         cima = lista[lugar-3]
-        print('cima: ', cima)
+        #print('cima: ', cima)
 
     if(lugar != 2 and lugar != 5 and lugar != 8): # pode ir para direita
         direcao.append('d')
         direita = lista[lugar+1]
-        print('direita: ', direita)
+        #print('direita: ', direita)
 
     if(lugar != 0 and lugar != 3 and lugar != 6): # pode ir pra esquerda
         direcao.append('a') 
         esquerda = lista[lugar-1]
-        print('esquerda: ', esquerda)
+        #print('esquerda: ', esquerda)
     
 
     moverAleatorio = randint(0 ,len(direcao)-1)
@@ -187,12 +258,12 @@ def deuLoop(lista):
     return lista
     
 
-
 def testeDeObjetivo(lista):
     completo = False
     if(lista == [1,2,3,4,5,6,7,8,0]):
         completo =  True
     return completo
+
 
 def imprime(lista):
     print('\n---------------------------')
@@ -220,44 +291,13 @@ def imprime(lista):
 completou = False
 lugar = 0
 
-metodo = input('1 para Busca Gulosa \n2 para Agente humano \n ')
+metodo = input('1 para Agente humano \n2 para Busca Gulosa \n3 para Busca A*\n')
 
 if(metodo == '1'):
-    loop = 0
-    copiaUm = lista.copy()
-    imprime(lista)
-
-    while(completou == False):
-    #for i in range(0, 8):
-        lugar = lista.index(0)
-    
-        if(loop == 2):
-            copiaDois = copiaUm.copy()
-            copiaUm = lista.copy()
-
-            if(copiaUm == copiaDois):
-                deuLoop(lista)
-                deuLoop(lista)
-                deuLoop(lista)
-            loop = 0
-
-        lugar = lista.index(0)
-        buscaGulosa(lista,lugar)
-        #print('Agente inteligete')
-        loop = loop +1
-
-        #imprime(lista)
-        #time.sleep(1) # delay
-        completou = testeDeObjetivo(lista)
-        if(completou == True):
-            print('Parabens, quebra cabeça completo')
-    
-
-elif(metodo == '2'):
     while(completou == False):
         imprime(lista)
         lugar = lista.index(0)
-        mover = input('esquerda-a, direita-d, cima-w, baixo-s, auto ou terminar: ')
+        mover = input('esquerda-a, direita-d, cima-w, baixo-s ou terminar: ')
         if(mover == 'terminar'):
             break
         movimentacao(lista, lugar, mover)
@@ -270,3 +310,71 @@ elif(metodo == '2'):
         print('Programa terminado')
         
         
+elif(metodo == '2'):
+    loop = 0
+    copiaUm = lista.copy()
+    imprime(lista)
+    nMovimento = 0
+
+    while(completou == False):
+    #for i in range(0, 8):
+        lugar = lista.index(0)
+    
+        if(loop == 2):
+            copiaDois = copiaUm.copy()
+            copiaUm = lista.copy()
+
+            if(copiaUm == copiaDois):
+                deuLoop(lista)
+                nMovimento = nMovimento + 1
+                deuLoop(lista)
+                nMovimento = nMovimento + 1
+                deuLoop(lista)
+                nMovimento = nMovimento + 1
+            loop = 0
+
+        lugar = lista.index(0)
+        buscaGulosa(lista,lugar)
+        #print('Agente inteligete')
+        loop = loop +1
+        nMovimento = nMovimento + 1
+        print('Numero de movimentos: ', nMovimento)
+        #imprime(lista)
+        #time.sleep(1) # delay
+        completou = testeDeObjetivo(lista)
+        if(completou == True):
+            print('Parabens, quebra cabeça completo')
+
+elif(metodo == '3'):
+    loop = 0
+    copiaUm = lista.copy()
+
+    imprime(lista)
+    nMovimento = 0
+
+    while(completou == False):
+        lugar = lista.index(0)
+
+        if(loop == 2):
+            copiaDois = copiaUm.copy()
+            copiaUm = lista.copy()
+
+            if(copiaUm == copiaDois):
+                deuLoop(lista)
+                nMovimento = nMovimento + 1
+                deuLoop(lista)
+                nMovimento = nMovimento + 1
+                deuLoop(lista)
+                nMovimento = nMovimento + 1
+            loop = 0
+
+        lugar = lista.index(0)
+
+        buscaEstrela(lista, lugar)
+        loop = loop +1
+        completou = testeDeObjetivo(lista)
+        nMovimento = nMovimento + 1
+        print('Numero de movimentos: ', nMovimento)
+        #time.sleep(1)
+        if(completou == True):
+            print('Parabens, quebra cabeça completo')
